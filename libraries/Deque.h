@@ -24,8 +24,7 @@ public:
 
 class Deque {
 private:
-    Node *first = nullptr;
-    Node *prev_last = nullptr;
+    Node *node = nullptr;
 
 public:
     ~Deque();

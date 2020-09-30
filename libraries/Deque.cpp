@@ -1,14 +1,15 @@
 #include"Deque.h"
 
 #include<iostream>
-#include <fstream>
 
 using std::cout;
 using std::string;
 using std::ifstream;
 using std::ofstream;
+using std::out_of_range;
 
-Node::Node(int _value, Node *_next = nullptr) : value(_value), next(_next) {}
+Node::Node(int _value, Node *_next = nullptr) : value(_value), next(_next) {
+}
 
 Node::~Node() {
     delete next;
@@ -23,51 +24,65 @@ int Node::get_value() {
 }
 
 Deque::~Deque() {
-    delete first;
+    delete node;
 }
 
 bool Deque::is_empty() {
-    return first == nullptr;
+    return node == nullptr;
 }
 
 void Deque::push(int value) {
-    if(is_empty()) {
+    if (is_empty()) {
         shift(value);
-    } else if(){
-        prev_last->next = new Node(value, prev_last->next);
-        prev_last = prev_last->next;
+    } else {
+        Node *current = node;
+
+        while (current->next) {
+            current = current->next;
+        }
+
+        current->next = new Node(value);
     }
 }
 
-//int Deque::pop() {
-//    if(is_empty()) {
-//        throw 1;
-//    } else if(first == prev_last){
-//        int value = first->value;
-//
-//        first
-//        delete temp;
-//
-//        return value;
-//    }
-//}
+int Deque::pop() {
+    int value;
+
+    if (is_empty()) {
+        throw out_of_range("Deque is empty");
+    } else if (node->next == nullptr) {
+        value = node->value;
+
+        node = nullptr;
+        delete node;
+    } else {
+        Node *current = node;
+
+        while (current->next->next) {
+            current = current->next;
+        }
+
+        value = current->next->value;
+
+        delete current->next;
+        current->next = nullptr;
+    }
+
+    return value;
+}
 
 void Deque::shift(int value) {
-    first = new Node(value, first);
-
-    if(prev_last == nullptr) {
-        prev_last = first;
-    }
+    node = new Node(value, node);
 }
 
 int Deque::unshift() {
-    if(is_empty()) {
-        throw 1;
+    if (is_empty()) {
+        throw out_of_range("Deque is empty");
     } else {
-        int value = first->value;
-        Node *temp = first;
+        int value = node->value;
+        Node *temp = node;
 
-        first = first->get_next();
+        node = node->next;
         temp->next = nullptr;
         delete temp;
 
