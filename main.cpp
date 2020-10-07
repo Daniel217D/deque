@@ -4,7 +4,7 @@
 using std::cout;
 
 int main() {
-    auto *d = new Deque<int>();
+    auto *d = new Deque<double>();
 
     cout << "Push with pop: ";
     d->push(1);
