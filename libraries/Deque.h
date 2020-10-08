@@ -41,6 +41,12 @@ private:
     Node<Type> *node = nullptr;
 
 public:
+    Deque() = default;
+
+    explicit Deque(Type value) {
+        push(value);
+    }
+
     ~Deque() {
         delete node;
     }
